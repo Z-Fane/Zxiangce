@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}翻相册 - 编辑照片{% endblock %}
+
+{% block body %}
+<div class="page-header">
+    <h1>相册与图片设置</h1>
+</div>
+<ol class="breadcrumb" id="navigation">
+    <li><a href="{{ url_for('.index') }}" target="_blank">首页</a></li>
+    <li><a href="{{ url_for('.edit_album', id=album.id) }}" target="_blank">编辑相册信息</a></li>
+    <li><a href="{{ url_for('.edit_photo', id=album.id) }}" target="_blank">照片编辑与排序</a></li>
+    <li class="active">快捷排序</li>
+    <li class="pull-right"><a href="{{ url_for('.album', id=album.id) }}">返回相册</a></li>
+    <li class="pull-right"><a href="{{ url_for('.add_photo', id=album.id) }}" target="_blank">添加图片</a></li>
+</ol>
+
+<form action="{{ url_for('.save_sort', id=album.id) }}" method="POST">
+    <div class="sort-area">
+    <div class="row">
+    <section id="wrapper">
+	<ul class="images images-sort" id="images">
+        {% for photo in enu_photos %}
+		<li><div class="sort-thumbnail">
+                <img class="img-responsive portrait" src="{{ photo[1].url_t }}" alt="Some description"/>
+            </div>
+            <input class="order" type="hidden" name="order-{{ photo[1].id }}" value="{{ photo[0] + 1 }}">
+        </li>
+        {% endfor %}
+	</ul>
+    </section>
+    </div>
+    <div class="row text-center">
+        <hr>
+        <input class="btn btn-success" type="submit" name="submit" value="提交">&nbsp;&nbsp;
+        <a class="btn btn-default" href="{{ url_for('.album', id=album.id) }}">取消</a>
+    </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="{{ url_for('static', filename='jquery-ui-1.12.1/jquery-ui.min.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='js/core.js') }}" type="text/javascript"></script>
+{% endblock %}

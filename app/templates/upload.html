@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}翻相册 - 创建{% endblock %}
+{% block body %}
+<div class="page-header">
+    <h1>上传照片</h1>
+</div>
+
+<ol class="breadcrumb" id="navigation">
+    <li><a href="{{ url_for('.index') }}">首页</a></li>
+    <li class="active">上传照片</li>
+    <li class="pull-right"><a href="{{ url_for('.albums', username=current_user.username) }}">返回我的主页</a></li>
+</ol>
+
+<div class="row text-center">
+    <div class="col-md-1"></div>
+    <div class="col-md-4 choice">
+        <h2>上传到选定相册</h2>
+        <form action="{{ url_for('.upload_add') }}" method="POST">
+            <select name="album" class="form-control">
+            {% for album in current_user.albums %}
+            <option value="{{ album.id }}">{{ album.title }}</option>
+            {% endfor %}
+            </select><br>
+            <input class="btn btn-primary" type="submit" name="submit" value="提交">&nbsp;&nbsp;
+        </form>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-4 choice">
+        <h2>上传到新相册</h2><br><br><br>
+        <a class="btn btn-success" href="{{ url_for('.new_album') }}">新建相册</a>
+    </div>
+</div>
+
+{% endblock %}

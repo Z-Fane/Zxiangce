@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% from 'macros.html' import render_form %}
+{% block title %}翻相册 - 更改邮箱地址{% endblock %}
+
+{% block body %}
+<div class="page-body">
+    <h1>更换邮箱地址</h1>
+</div>
+<div class="col-md-4">
+{{ render_form(form,url_for('auth.change_email_request')) }}
+</div>
+{% endblock %}

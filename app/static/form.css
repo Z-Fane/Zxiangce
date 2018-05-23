@@ -1,0 +1,51 @@
+.form {
+    margin: 0 auto;
+    padding: 20px 0;
+    max-width: 500px;
+}
+.form_field{
+    margin:20px 0;
+    line-height: 44px;
+    min-height: 44px;
+    position: relative;
+}
+
+h2  {
+    margin: 2em 0;
+    text-align: center;
+}
+
+.formlabel {
+    float: left;
+    text-align: left;
+    width: 22%;
+    box-sizing: border-box;
+}
+
+.forminput {
+    float: right;
+    width: 78%;
+    padding: 12px 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+    letter-spacing: 1px;
+    border: 1px solid #ccc;
+}
+.form_submit{
+    text-align: center;
+}
+.form_submit input{
+    margin: 0 auto;
+    min-width: 200px;
+    padding: 10px;
+    border-radius: 10px;
+    background: #3355d0;
+    color: #ffffff;
+    border: none;
+}
+.clearfix:after {
+    content: "\200B";
+    display: block;
+    height: 0;
+    clear: both;
+}

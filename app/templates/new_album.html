@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% from 'macros.html' import render_form %}
+
+{% block title %}翻相册 - 创建{% endblock %}
+{% block head %}
+
+{% endblock %}
+{% block body %}
+    <div class="page-header">
+        <h1>创建相册</h1>
+    </div>
+
+    <ol class="breadcrumb" id="navigation">
+        <li><a href="{{ url_for('.index') }}">首页</a></li>
+        <li class="active">新建照片</li>
+        <li class="pull-right"><a href="{{ url_for('.albums', username=current_user.username) }}">返回我的主页</a></li>
+    </ol>
+
+    <div class="loader"></div>
+    <div class="mask-bg"></div>
+
+    <div class="col-md-6">
+        <form action="{{ url }}" method="post" class="form form-horizontal" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            {% for field in form %}
+                <div class="form_field">
+                    {% if field.type == 'CSRFTokenField' %}
+                        {{ '' }}
+                    {% elif field.type=='FileField' %}
+                        {{ field.label(class='formlabel') }}
+                        {{ field(multiple="multiple") }}
+                        {% if field.errors %}
+                            {% for error in field.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    {% else %}
+                        {{ field.label(class='formlabel') }}
+                        {{ field(class='forminput') }}
+                        {% if field.errors %}
+                            {% for error in field.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script>
+        // display loading animation
+        $('#submit').click(function () {
+            $('.mask-bg').show();
+            $('.loader').show();
+        })
+    </script>
+{% endblock %}

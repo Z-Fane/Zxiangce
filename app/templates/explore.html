@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+
+{% block body %}
+    <div class="container">
+        <ol class="breadcrumb" id="navigation">
+            <li><a href="{{ url_for('.index') }}">首页</a></li>
+            <li class="active">探索</li>
+            <li class="pull-right"><a href="{{ url_for('.albums', username=current_user.username) }}">返回我的主页</a></li>
+        </ol>
+        <div class="page-header">
+            <h2>探索</h2>
+        </div>
+        <ul class="nav nav-tabs">
+            <li {% if type == 'new' %}class="active"{% endif %}><a href="{{ url_for('.explore') }}">最新</a></li>
+            <li {% if type == 'hot' %}class="active"{% endif %}><a href="{{ url_for('.explore_hot') }}">热门</a></li>
+        </ul>
+        <br>
+        <div class="container">
+            <div class="row grid">
+                {% for photo in photos[:100] %}
+                    <div class="explore-image grid-item">
+                        <a class="thumbnail" href="{{ url_for('.photo', id=photo.id) }}">
+                            <img class="img-responsive lazy" src="{{ photo.url_t }}">
+                        </a>
+                        <div class="info">
+                            <span>上传于{{ moment(photo.timestamp).format('L') }}</span>
+                            <span>By <a
+                                    href="{{ url_for('.albums', username=photo.author.username) }}">{{ photo.author.username }}</a></span><br>
+                            <span>相册：<a
+                                    href="{{ url_for('.album', id=photo.album.id) }}">{{ photo.album.title }}</a></span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/isotope.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/imagesloaded.js') }}"></script>
+    <script>
+        $('.grid').imagesLoaded(function () {
+            $('.grid').isotope({
+                itemSelector: '.grid-item',
+                {% if type == 'photo' %}
+                    layoutMode: 'masonry',
+                {% endif %}
+            });
+        });
+    </script>
+{% endblock %}

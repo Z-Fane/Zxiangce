@@ -1,0 +1,14 @@
+{% from 'macros.html' import render_form %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='form.css') }}">
+</head>
+<body>
+<h2>注册 或 登录</h2>
+{{ render_form(form,url_for('auth.register')) }}
+</body>
+</html>
