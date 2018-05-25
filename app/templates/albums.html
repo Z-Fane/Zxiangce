@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% from "macros.html" import render_form,pagination_widget %}
-{% block title %}{{ user.username }} - 翻相册{% endblock %}
+{% block title %}{{ user.username }} - 帆相册{% endblock %}
 
 {% block body %}
     <div class="container">
         <ol class="breadcrumb">
-            <li><a href="{{ url_for('.index') }}">翻相册</a></li>
+            <li><a href="{{ url_for('.index') }}">帆相册</a></li>
             <li class="active">{% if current_user == user %}我{% else %}{{ user.username }}{% endif %}的相册</li>
             <li><a href="{{ url_for('main.likes', username=user.username) }}">{% if current_user == user %}我{% else %}
                 {{ user.username }}{% endif %}的喜欢</a></li>
