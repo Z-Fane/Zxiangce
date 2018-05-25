@@ -1,10 +1,10 @@
-from flask import Blueprint, flash, redirect, request, url_for, render_template, current_app
+from flask import Blueprint, flash, redirect, request, url_for, render_template, current_app, jsonify
 from flask_login import login_user, login_required, logout_user, current_user
 
 from app import User, db
 from app.auth.forms import LoginForm, RegisterForm, PasswordResetRequestForm, ChangePasswordForm, ChangeEmailForm, \
     PasswordResetForm
-from app.email import send_email
+from app.tasks import send_email, long_task
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 
@@ -179,4 +179,28 @@ def resend_confirmation():
                'email/confirm', user=current_user, token=token)
     flash(u'新的确认邮件已经发送到您的邮箱，请查收。', 'info')
     return redirect(url_for('main.index'))
+
+@auth.route('/longtask')
+def longtask():
+    task=long_task.apply_async()
+    return jsonify({}), 202, {'Location': url_for('.taskstatus', task_id=task.id)}
+
+@auth.route('/status/<task_id>')
+def taskstatus(task_id):
+    # 获取异步任务结果
+    task = long_task.AsyncResult(task_id)
+    # 等待处理
+    if task.state == 'PENDING':
+        response = {'state': task.state, 'current': 0, 'total': 1}
+    elif task.state != 'FAILURE':
+        response = {'state': task.state, 'current': task.info.get('current', 0), 'total': task.info.get('total', 1)}
+        # 处理完成
+        if 'result' in task.info:
+            response['result'] = task.info['result']
+    else:
+        # 后台任务出错
+        response = {'state': task.state, 'current': 1, 'total': 1}
+    return jsonify(response)
+
+
 
