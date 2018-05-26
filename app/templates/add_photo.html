@@ -24,12 +24,20 @@
                   enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
                 {% for field in form %}
-                    <div class="form_field">
+                    <div class="form-group">
                         {% if field.type == 'CSRFTokenField' %}
                             {{ '' }}
+                        {% elif field.type=='BooleanField' %}
+                            {{ field.label(class='control-label') }}
+                            {{ field(class='checkbox') }}
+                            {% if field.errors %}
+                                {% for error in field.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            {% endif %}
                         {% else %}
-                            {{ field.label(class='formlabel') }}
-                            {{ field(class='forminput') }}
+                            {{ field.label(class='control-label') }}
+                            {{ field(class='form-control') }}
                             {% if field.errors %}
                                 {% for error in field.errors %}
                                     <span>{{ error }}</span>

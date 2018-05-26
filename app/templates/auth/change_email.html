@@ -3,10 +3,12 @@
 {% block title %}帆相册 - 更改邮箱地址{% endblock %}
 
 {% block body %}
-<div class="page-body">
-    <h1>更换邮箱地址</h1>
-</div>
-<div class="col-md-4">
-{{ render_form(form,url_for('auth.change_email_request')) }}
-</div>
+    <div class="container">
+        <div class="page-body">
+            <h1>更换邮箱地址</h1>
+        </div>
+        <div class="col-md-4">
+            {{ render_form(form,url_for('auth.change_email_request')) }}
+        </div>
+    </div>
 {% endblock %}
